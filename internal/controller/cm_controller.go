@@ -72,11 +72,11 @@ func (r *CmReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Re
 		return ctrl.Result{}, nil
 	}
 
-	if _, err := base64.StdEncoding.DecodeString(curCm.Data[secrets]); err != nil {
-		log.Error(err, "ConfigMap is Not valid")
-		return ctrl.Result{}, nil
-	}
-
+	//if _, err := base64.StdEncoding.DecodeString(curCm.Data[secrets]); err != nil {
+	//	log.Error(err, "ConfigMap is Not valid")
+	//	return ctrl.Result{}, nil
+	//}
+	//
 	// 新增
 
 	switch curCm.Data[status] {
@@ -223,7 +223,7 @@ func (r *CmReconciler) UpdateAllNs(secrets, data string) error {
 	c := NewCounter(len(list.Items))
 	msg := make([]string, 0)
 	for _, ns := range list.Items {
-		var sec *v1.Secret
+		sec := new(v1.Secret)
 		err := r.Get(context.TODO(), types.NamespacedName{
 			Name:      secrets,
 			Namespace: ns.Name,
